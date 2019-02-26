@@ -1,0 +1,13 @@
+to compile the profiler
+(tensorflow) lenovo@lenovo-ThinkStation-P520:~/tensorflow3/tensorflow$ bazel build //tensorflow/core/profiler:profiler
+
+to run the profiler
+(tensorflow) lenovo@lenovo-ThinkStation-P520:~/tensorflow3/tensorflow$ bazel-bin/tensorflow/core/profiler/profiler --profile_path=/tmp/train_dir/profile_100
+
+To view the time needed for each operation
+open chrome
+chrome://tracing
+load deep.json_11
+
+
+

@@ -1,0 +1,67 @@
+tfprof> op -select micros,bytes,occurrence -order_by micros -max_depth 20
+Incomplete shape.
+Incomplete shape.
+Incomplete shape.
+Incomplete shape.
+Incomplete shape.
+Incomplete shape.
+
+Doc:
+op: The nodes are operation kernel type, such as MatMul, Conv2D. Graph nodes belonging to the same type are aggregated together.
+requested bytes: The memory requested by the operation, accumulatively.
+total execution time: Sum of accelerator execution time and cpu execution time.
+cpu execution time: The time from the start to the end of the operation. It's the sum of actual cpu run time plus the time that it spends waiting if part of computation is launched asynchronously.
+accelerator execution time: Time spent executing on the accelerator. This is normally measured by the actual hardware library.
+occurrence: The number of times it occurs
+
+Profile:
+node name | requested bytes | total execution time | accelerator execution time | cpu execution time | op occurrence (run|defined)
+Mul                           32.10MB (100.00%, 29.84%),      17.20ms (100.00%, 35.79%),             0us (0.00%, 0.00%),      17.20ms (100.00%, 35.79%),     82|243
+DepthwiseConv2dNative          21.10MB (70.16%, 19.61%),        9.97ms (64.21%, 20.75%),             0us (0.00%, 0.00%),        9.97ms (64.21%, 20.75%),      17|17
+TensorArrayScatterV3           22.20MB (50.55%, 20.63%),        7.05ms (43.46%, 14.66%),             0us (0.00%, 0.00%),        7.05ms (43.46%, 14.66%),        5|5
+Add                             15.34KB (29.92%, 0.01%),        4.99ms (28.80%, 10.39%),             0us (0.00%, 0.00%),        4.99ms (28.80%, 10.39%),     59|164
+Cast                           11.07MB (29.91%, 10.29%),         2.16ms (18.41%, 4.49%),             0us (0.00%, 0.00%),         2.16ms (18.41%, 4.49%),       5|33
+Relu6                                 0B (0.00%, 0.00%),         1.50ms (13.92%, 3.12%),             0us (0.00%, 0.00%),         1.50ms (13.92%, 3.12%),      43|43
+ResizeBilinear                   1.08MB (19.61%, 1.00%),         1.12ms (10.80%, 2.33%),             0us (0.00%, 0.00%),         1.12ms (10.80%, 2.33%),        1|1
+Conv2D                          46.01KB (18.61%, 0.04%),          1.08ms (8.47%, 2.26%),             0us (0.00%, 0.00%),          1.08ms (8.47%, 2.26%),      12|55
+TensorArrayV3                      836B (18.57%, 0.00%),           298us (6.21%, 0.62%),             0us (0.00%, 0.00%),           298us (6.21%, 0.62%),      11|11
+TensorArrayGatherV3              1.08MB (18.57%, 1.01%),           204us (5.59%, 0.42%),             0us (0.00%, 0.00%),           204us (5.59%, 0.42%),        6|6
+NonMaxSuppressionV2                400B (17.56%, 0.00%),           181us (5.17%, 0.38%),             0us (0.00%, 0.00%),           181us (5.17%, 0.38%),        1|1
+Const                          649.99KB (17.56%, 0.60%),           177us (4.79%, 0.37%),             0us (0.00%, 0.00%),           177us (4.79%, 0.37%),   118|1121
+Transpose                       92.02KB (16.96%, 0.09%),           153us (4.42%, 0.32%),             0us (0.00%, 0.00%),           153us (4.42%, 0.32%),        3|3
+Sub                             89.10KB (16.87%, 0.08%),           151us (4.10%, 0.31%),             0us (0.00%, 0.00%),           151us (4.10%, 0.31%),      73|85
+Split                           54.71KB (16.79%, 0.05%),           106us (3.79%, 0.22%),             0us (0.00%, 0.00%),           106us (3.79%, 0.22%),        2|2
+Pack                            30.91KB (16.74%, 0.03%),           106us (3.57%, 0.22%),             0us (0.00%, 0.00%),           106us (3.57%, 0.22%),      20|32
+StridedSlice                        76B (16.71%, 0.00%),           100us (3.35%, 0.21%),             0us (0.00%, 0.00%),           100us (3.35%, 0.21%),      24|38
+Gather                          75.19KB (16.71%, 0.07%),            82us (3.14%, 0.17%),             0us (0.00%, 0.00%),            82us (3.14%, 0.17%),      12|15
+ConcatV2                        75.77KB (16.64%, 0.07%),            76us (2.97%, 0.16%),             0us (0.00%, 0.00%),            76us (2.97%, 0.16%),       7|52
+FeatureExtractor/MobilenetV2/expanded_conv_2/ArithmeticOptimizer/AddOpsRewrite_add             0B (0.00%, 0.00%),            66us (2.81%, 0.14%),             0us (0.00%, 0.00%),            66us (2.81%, 0.14%),        1|1
+BiasAdd                               0B (0.00%, 0.00%),            63us (2.67%, 0.13%),             0us (0.00%, 0.00%),            63us (2.67%, 0.13%),      12|12
+
+tfprof> advise
+Incomplete shape.
+Incomplete shape.
+Incomplete shape.
+Incomplete shape.
+Incomplete shape.
+Incomplete shape.
+Incomplete shape.
+Incomplete shape.
+Incomplete shape.
+
+ExpensiveOperationChecker:
+top 1 operation type: Mul, cpu: 17.20ms, accelerator: 0us, total: 17.20ms (35.79%)
+top 2 operation type: DepthwiseConv2dNative, cpu: 9.97ms, accelerator: 0us, total: 9.97ms (20.75%)
+top 3 operation type: TensorArrayScatterV3, cpu: 7.05ms, accelerator: 0us, total: 7.05ms (14.66%)
+top 1 graph node: FeatureExtractor, cpu: 0us, accelerator: 0us, total: 0us
+top 2 graph node: Preprocessor, cpu: 0us, accelerator: 0us, total: 0us
+top 3 graph node: ToFloat, cpu: 2.14ms, accelerator: 0us, total: 2.14ms
+
+
+
+FPS
+
+720 ~19
+1080 ~15
+2k ~14
+vga ~23

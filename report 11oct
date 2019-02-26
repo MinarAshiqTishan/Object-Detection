@@ -1,0 +1,51 @@
+Issue: limited GPU memory
+
+Description: 
+
+output of nvidia-smi:
+
+Thu Oct 11 10:07:50 2018       
++-----------------------------------------------------------------------------+
+| NVIDIA-SMI 396.54                 Driver Version: 396.54                    |
+|-------------------------------+----------------------+----------------------+
+| GPU  Name        Persistence-M| Bus-Id        Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp  Perf  Pwr:Usage/Cap|         Memory-Usage | GPU-Util  Compute M. |
+|===============================+======================+======================|
+|   0  Quadro P600         Off  | 00000000:65:00.0  On |                  N/A |
+| 34%   39C    P8    N/A /  N/A |    642MiB /  1997MiB |      1%      Default |
++-------------------------------+----------------------+----------------------+
+                                                                               
++-----------------------------------------------------------------------------+
+| Processes:                                                       GPU Memory |
+|  GPU       PID   Type   Process name                             Usage      |
+|=============================================================================|
+|    0      1171      G   /usr/lib/xorg/Xorg                           526MiB |
+|    0      2004      G   compiz                                       113MiB |
++-----------------------------------------------------------------------------+
+
+Quadro p600 GPU card comes with 2GB of memory. While it is enough to run either tensorflow at runtime or zed camera api, it is not suffiecient for running both at the same time. The memory allocation simply fails.
+
+error log :
+
+OpenCV version :  4.0.0-pre
+2018-10-11 10:30:34.812562: I tensorflow/core/platform/cpu_feature_guard.cc:141] Your CPU supports instructions that this TensorFlow binary was not compiled to use: AVX2 AVX512F FMA
+2018-10-11 10:30:34.900212: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1405] Found device 0 with properties: 
+name: Quadro P600 major: 6 minor: 1 memoryClockRate(GHz): 1.5565
+pciBusID: 0000:65:00.0
+totalMemory: 1.95GiB freeMemory: 1.29GiB
+2018-10-11 10:30:34.900241: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1484] Adding visible gpu devices: 0
+2018-10-11 10:30:35.361846: I tensorflow/core/common_runtime/gpu/gpu_device.cc:965] Device interconnect StreamExecutor with strength 1 edge matrix:
+2018-10-11 10:30:35.361881: I tensorflow/core/common_runtime/gpu/gpu_device.cc:971]      0 
+2018-10-11 10:30:35.361885: I tensorflow/core/common_runtime/gpu/gpu_device.cc:984] 0:   N 
+2018-10-11 10:30:35.362016: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1097] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 953 MB memory) -> physical GPU (device: 0, name: Quadro P600, pci bus id: 0000:65:00.0, compute capability: 6.1)
+Running...
+Opening ZED Camera...
+in void sl::Mat::alloc(size_t, size_t, sl::MAT_TYPE, sl::MEM) : cuda error [2]: out of memory.
+in sl::ERROR_CODE sl::Mat::setFrom(const sl::Mat&, sl::COPY_TYPE, cudaStream_t) : cuda error [11]: invalid argument.
+NO GPU COMPATIBLE
+
+
+
+Solution:
+
+In order to run both, tensorflow has to be run with cpu as the RAM and processor is quite powerful. But it also implies that, this gpu is not suffiecient to train a model.

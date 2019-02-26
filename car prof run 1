@@ -1,0 +1,119 @@
+tfprof> advise
+
+ExpensiveOperationChecker:
+top 1 operation type: Mul, cpu: 17.66ms, accelerator: 0us, total: 17.66ms (35.70%)
+top 2 operation type: DepthwiseConv2dNative, cpu: 10.06ms, accelerator: 0us, total: 10.06ms (20.34%)
+top 3 operation type: TensorArrayScatterV3, cpu: 7.74ms, accelerator: 0us, total: 7.74ms (15.65%)
+top 1 graph node: FeatureExtractor, cpu: 0us, accelerator: 0us, total: 0us
+top 2 graph node: Preprocessor, cpu: 0us, accelerator: 0us, total: 0us
+top 3 graph node: ToFloat, cpu: 2.00ms, accelerator: 0us, total: 2.00ms
+
+
+
+tfprof> op -select micros,bytes,occurrence -order_by micros
+Incomplete shape.
+Incomplete shape.
+Incomplete shape.
+
+Doc:
+
+op: The nodes are operation kernel type, such as MatMul, Conv2D. Graph nodes belonging to the same type are aggregated together.
+requested bytes: The memory requested by the operation, accumulatively.
+total execution time: Sum of accelerator execution time and cpu execution time.
+cpu execution time: The time from the start to the end of the operation. It's the sum of actual cpu run time plus the time that it spends waiting if part of computation is launched asynchronously.
+accelerator execution time: Time spent executing on the accelerator. This is normally measured by the actual hardware library.
+occurrence: The number of times it occurs
+
+Profile:
+node name | requested bytes | total execution time | accelerator execution time | cpu execution time | op occurrence (run|defined)
+Mul                           32.10MB (100.00%, 29.83%),      17.66ms (100.00%, 35.70%),             0us (0.00%, 0.00%),      17.66ms (100.00%, 35.70%),     82|243
+DepthwiseConv2dNative          21.10MB (70.17%, 19.61%),       10.06ms (64.30%, 20.34%),             0us (0.00%, 0.00%),       10.06ms (64.30%, 20.34%),      17|17
+TensorArrayScatterV3           22.20MB (50.56%, 20.63%),        7.74ms (43.96%, 15.65%),             0us (0.00%, 0.00%),        7.74ms (43.96%, 15.65%),        5|5
+Add                             14.65KB (29.93%, 0.01%),        5.08ms (28.31%, 10.27%),             0us (0.00%, 0.00%),        5.08ms (28.31%, 10.27%),     59|164
+Cast                           11.07MB (29.92%, 10.29%),         2.02ms (18.04%, 4.08%),             0us (0.00%, 0.00%),         2.02ms (18.04%, 4.08%),       5|33
+Relu6                                 0B (0.00%, 0.00%),         1.57ms (13.96%, 3.18%),             0us (0.00%, 0.00%),         1.57ms (13.96%, 3.18%),      43|43
+ResizeBilinear                   1.08MB (19.62%, 1.00%),         1.20ms (10.78%, 2.43%),             0us (0.00%, 0.00%),         1.20ms (10.78%, 2.43%),        1|1
+Conv2D                          46.01KB (18.62%, 0.04%),          1.11ms (8.35%, 2.24%),             0us (0.00%, 0.00%),          1.11ms (8.35%, 2.24%),      12|55
+TensorArrayV3                      836B (18.58%, 0.00%),           317us (6.11%, 0.64%),             0us (0.00%, 0.00%),           317us (6.11%, 0.64%),      11|11
+TensorArrayGatherV3              1.08MB (18.58%, 1.01%),           223us (5.47%, 0.45%),             0us (0.00%, 0.00%),           223us (5.47%, 0.45%),        6|6
+NonMaxSuppressionV2                400B (17.57%, 0.00%),           198us (5.02%, 0.40%),             0us (0.00%, 0.00%),           198us (5.02%, 0.40%),        1|1
+
+tfprof> graph -step -1 -max_depth 100000 -output timeline:outfile=deep.json
+Incomplete shape.
+generating trace file.
+
+******************************************************
+Timeline file is written to deep.json_11.
+Open a Chrome browser, enter URL chrome://tracing and load the timeline file.
+******************************************************
+Incomplete shape.
+generating trace file.
+
+******************************************************
+Timeline file is written to deep.json_35.
+Open a Chrome browser, enter URL chrome://tracing and load the timeline file.
+******************************************************
+Incomplete shape.
+generating trace file.
+
+******************************************************
+Timeline file is written to deep.json_43.
+Open a Chrome browser, enter URL chrome://tracing and load the timeline file.
+******************************************************
+Incomplete shape.
+generating trace file.
+
+******************************************************
+Timeline file is written to deep.json_46.
+Open a Chrome browser, enter URL chrome://tracing and load the timeline file.
+******************************************************
+Incomplete shape.
+generating trace file.
+
+******************************************************
+Timeline file is written to deep.json_48.
+Open a Chrome browser, enter URL chrome://tracing and load the timeline file.
+******************************************************
+Incomplete shape.
+generating trace file.
+
+******************************************************
+Timeline file is written to deep.json_55.
+Open a Chrome browser, enter URL chrome://tracing and load the timeline file.
+******************************************************
+Incomplete shape.
+generating trace file.
+
+******************************************************
+Timeline file is written to deep.json_56.
+Open a Chrome browser, enter URL chrome://tracing and load the timeline file.
+******************************************************
+Incomplete shape.
+generating trace file.
+
+******************************************************
+Timeline file is written to deep.json_66.
+Open a Chrome browser, enter URL chrome://tracing and load the timeline file.
+******************************************************
+Incomplete shape.
+generating trace file.
+
+******************************************************
+Timeline file is written to deep.json_70.
+Open a Chrome browser, enter URL chrome://tracing and load the timeline file.
+******************************************************
+Incomplete shape.
+generating trace file.
+
+******************************************************
+Timeline file is written to deep.json_77.
+Open a Chrome browser, enter URL chrome://tracing and load the timeline file.
+******************************************************
+Incomplete shape.
+generating trace file.
+
+******************************************************
+Timeline file is written to deep.json_90.
+Open a Chrome browser, enter URL chrome://tracing and load the timeline file.
+******************************************************
+
